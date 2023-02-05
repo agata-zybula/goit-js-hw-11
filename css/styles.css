@@ -1,0 +1,15 @@
+body {
+margin: 20px;
+}
+
+.photo-card {
+list-style-type: none;
+}
+
+.img-style {
+    list-style-type: none;
+}
+
+.hidden {
+    display: none;
+}
