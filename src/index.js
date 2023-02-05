@@ -63,10 +63,12 @@ async function fetchImages(name, currentPage) {
     showImages();
       buttonLoadMore.classList.remove('hidden');
       buttonLoadMore.classList.add('button-on-load');
-    if (images.length < dataFromApi.per_page) {
+      if (images.length > 500) {
+          buttonLoadMore.classList.add('hidden');
+          buttonLoadMore.classList.remove('button-on-load');
       Notiflix.Notify.warning(
         "We're sorry, but you've reached the end of search results."
-      );
+        );
       return;
     }
   } catch (error) {
