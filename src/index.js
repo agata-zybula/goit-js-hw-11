@@ -14,7 +14,7 @@ const dataFromApi = {
   orientation: 'horizontal', // orientacja zdjęcia. Określ wartość horizontal.
   safesearch: 'true', // weryfikacja wieku. Określ wartość true.
   lang: 'en', // en jako wartosc default, nie trzeba pisac. jezyk wyszukiwania
-  per_page: 20, // Determine the number of results per page. Accepted values: 3 - 200 Default: 20
+  per_page: 40 // Determine the number of results per page. Accepted values: 3 - 200 Default: 20
 };
 
 const { key, image_type, orientation, safesearch, lang, per_page } =
@@ -50,7 +50,7 @@ async function fetchImages(name, currentPage) {
           )
               .join('')
         );
-        
+
           Notiflix.Notify.info(`Hooray! We found ${response.data.totalHits} images.`);
     }
 
