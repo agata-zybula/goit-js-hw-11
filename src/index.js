@@ -70,6 +70,7 @@ async function fetchImages(name, currentPage) {
 
 
 searchButton.addEventListener('click', (e) => {
+    e.preventDefault;
     currentPage = 1;
    fetchImages(input.value.trim(), currentPage);
 });
