@@ -9,25 +9,28 @@ const gallery = document.querySelector(".gallery");
 const searchButton = document.querySelector('button[type="submit"]');
 const buttonLoadMore = document.querySelector(".load-more");
 
+
+
 const dataFromApi = {
   key: '33342692-93cb2143ae3f15ce293414fc6', // twój unikalny klucz dostępu do API - dostepny po zarejestrowaniu sie
   image_type: 'photo', // typ obrazka.Chcemy tylko zdjęć, dlatego określ wartość photo.
   orientation: 'horizontal', // orientacja zdjęcia. Określ wartość horizontal.
   safesearch: 'true', // weryfikacja wieku. Określ wartość true.
   lang: 'en', // en jako wartosc default, nie trzeba pisac. jezyk wyszukiwania
-  per_page: 20 // Determine the number of results per page. Accepted values: 3 - 200 Default: 20
+  per_page: 40 // Determine the number of results per page. Accepted values: 3 - 200 Default: 20
 };
 
 const { key, image_type, orientation, safesearch, lang, per_page } = dataFromApi;
 
-async function fetchImages(name, page) {
-    const urlApi = `https://pixabay.com/api/?key=${key}&q=${name}&image_type=${image_type}&orientation=${orientation}&safe_search=${safesearch}&lang=${lang}&per_page=${per_page}&page=${page}`;
+let currentPage = 1;
+
+async function fetchImages(name, currentPage) {
+    const urlApi = `https://pixabay.com/api/?key=${key}&q=${name}&image_type=${image_type}&orientation=${orientation}&safe_search=${safesearch}&lang=${lang}&per_page=${per_page}&page=${currentPage}`;
     try {
         const response = await axios.get(urlApi);
         console.log(response);
         const images = response.data.hits;
         console.log(images);
-
         gallery.innerHTML = '';
         function showImages() {
             gallery.insertAdjacentHTML(
@@ -52,27 +55,30 @@ async function fetchImages(name, page) {
         showImages();
 
          if (images.length === 0) {
-      Notiflix.Notify.failure(
-        'Sorry, there are no images matching your search query. Please try again.'
-      );
+      Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
       return;
-    }
+        } else if (images.length < dataFromApi.per_page) {
+            Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.");
+            return;
+        }
+
+        currentPage += 1;
     } catch (error) {
         console.error(error);
     }
 }
 
 
-form.addEventListener('submit', (e) => {
-    let page = 1;
-   fetchImages(input.value.trim(), page);
+searchButton.addEventListener('click', (e) => {
+    currentPage = 1;
+   fetchImages(input.value.trim(), currentPage);
 });
 
-searchButton.addEventListener('click', fetchImages);
+// searchButton.addEventListener('click', fetchImages);
 
 buttonLoadMore.addEventListener('click', (e) => {
-    let page += 1;
-    fetchImages(input.value.trim(), page);
+    currentPage += 1;
+    fetchImages(input.value.trim(), currentPage);
 });
 
 
