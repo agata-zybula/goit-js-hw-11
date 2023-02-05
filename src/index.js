@@ -63,13 +63,14 @@ async function fetchImages(name, currentPage) {
     showImages();
       buttonLoadMore.classList.remove('hidden');
       buttonLoadMore.classList.add('button-on-load');
-      if (images.length > 500) {
+          let quantity = Math.ceil(images.length / per_page);
+      if (currentPage > quantity) {
           buttonLoadMore.classList.add('hidden');
           buttonLoadMore.classList.remove('button-on-load');
       Notiflix.Notify.warning(
         "We're sorry, but you've reached the end of search results."
-        );
-      return;
+          );
+    //   return;
     }
   } catch (error) {
     console.error(error);
