@@ -63,8 +63,8 @@ async function fetchImages(name, currentPage) {
     showImages();
       buttonLoadMore.classList.remove('hidden');
       buttonLoadMore.classList.add('button-on-load');
-          let quantity = Math.ceil(images.length / per_page);
-      if (currentPage > quantity) {
+          let quantity = Math.ceil(response.data.totalHits / per_page);
+      if (currentPage === quantity) {
           buttonLoadMore.classList.add('hidden');
           buttonLoadMore.classList.remove('button-on-load');
       Notiflix.Notify.warning(
